@@ -1,4 +1,4 @@
-import { test } from '../../_fixtures/fixtures';
+import { test, expect } from '../../_fixtures/fixtures';
 
 test('Read product information', async ({ productsApi }) => {
   const productId = 1;
@@ -6,5 +6,8 @@ test('Read product information', async ({ productsApi }) => {
   const response = await productsApi.getProduct(productId);
 
   await productsApi.assertSuccessResponseCode(response);
-  await productsApi.assertBodyHasId(response);
+
+  const responseBody = await productsApi.parseBody(response);
+
+  expect(responseBody.id).toEqual(productId);
 });
